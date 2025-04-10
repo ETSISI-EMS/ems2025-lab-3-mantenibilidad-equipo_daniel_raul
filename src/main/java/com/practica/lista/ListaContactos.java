@@ -94,30 +94,6 @@ public class ListaContactos {
 		return false;
 	}
 	
-	private void insertarPersona (String documento, NodoPersonas nodo) {
-		NodoPersonas aux = nodo, nuevo = new NodoPersonas(documento, null);
-		//recorre hasta llegar al final de los nodos
-		while(aux.getSiguiente()!=null) {				
-			aux = aux.getSiguiente();				
-		}
-		aux.setSiguiente(nuevo);		
-	}
-	
-	public int personasEnCoordenadas () {
-		//deveulve cuantas personas hay depues del que hay en las coordenadas actuales
-		NodoPosicion aux = this.lista.getListaCoordenadas();
-		if(aux==null)
-			return 0;
-		else {
-			int cont;
-			for(cont=0;aux!=null;) {
-				cont += aux.getNumPersonas();
-				aux=aux.getSiguiente();
-			}
-			return cont;
-		}
-	}
-	
 	public int tamanioLista () {
 		return this.size;
 	}
