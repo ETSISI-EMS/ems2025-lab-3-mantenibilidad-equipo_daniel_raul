@@ -21,8 +21,6 @@ import com.practica.genericas.Persona;
 import com.practica.genericas.PosicionPersona;
 import com.practica.lista.ListaContactos;
 
-import javax.annotation.processing.Filer;
-
 public class ContactosCovid {
 	private Poblacion poblacion;
 	private Localizacion localizacion;
@@ -79,20 +77,19 @@ public class ContactosCovid {
 		try{
 			File archivo = new File(fichero);
 			FileReader fr = new FileReader(archivo);
-			loadDataFile(fichero, reset, fr);
+			loadDataFile(reset, fr);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 
 	@SuppressWarnings("resource")
-	public void loadDataFile(String fichero, boolean reset, FileReader fr) {
+	public void loadDataFile(boolean reset, FileReader fr) {
 		try {
 			// Apertura del fichero y creacion de BufferedReader para poder
 			// hacer una lectura comoda (disponer del metodo readLine()).
 			String[] datas;
 			String data;
-			File archivo = new File(fichero);
 			BufferedReader br = new BufferedReader(fr);
 			if (reset) {
 				this.poblacion = new Poblacion();
