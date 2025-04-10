@@ -29,27 +29,8 @@ public class ListaContactos {
 				/**
 				 * Insertamos en la lista de coordenadas
 				 */
-				NodoPosicion npActual = aux.getListaCoordenadas();
-				NodoPosicion npAnt=null;		
-				boolean npEncontrado = false;
-                while (npActual!=null && !npEncontrado) {
-					if(npActual.getCoordenada().equals(persona.getCoordenada())) {
-						npEncontrado=true;
-						npActual.setNumPersonas(npActual.getNumPersonas()+1);
-					}else {
-						npAnt = npActual;
-						npActual = npActual.getSiguiente();
-					}
-				}
+				buscarNodoPosicion(aux,aux.getListaCoordenadas(),persona.getCoordenada());
 
-
-				if(!npEncontrado) {
-					NodoPosicion npNuevo = new NodoPosicion(persona.getCoordenada(),1, null);
-					if(aux.getListaCoordenadas()==null)
-						aux.setListaCoordenadas(npNuevo);
-					else
-						npAnt.setSiguiente(npNuevo);			
-				}
 			}else if(aux.getFecha().compareTo(persona.getFechaPosicion())<0) {
 				ant = aux;
 				aux=aux.getSiguiente();
@@ -97,7 +78,7 @@ public class ListaContactos {
 			
 		}
 	}
-	private boolean buscarNodoPosicion(NodoPosicion npActual, Coordenada coordenadaPersona) {
+	private boolean buscarNodoPosicion(NodoTemporal aux, NodoPosicion npActual, Coordenada coordenadaPersona) {
 		NodoPosicion npAnt=null;
 		boolean npEncontrado = false;
 		while (npActual!=null && !npEncontrado) {
@@ -108,6 +89,14 @@ public class ListaContactos {
 				npAnt = npActual;
 				npActual = npActual.getSiguiente();
 			}
+		}
+
+		if(!npEncontrado) {
+			NodoPosicion npNuevo = new NodoPosicion(coordenadaPersona,1, null);
+			if(aux.getListaCoordenadas()==null)
+				aux.setListaCoordenadas(npNuevo);
+			else
+				npAnt.setSiguiente(npNuevo);
 		}
 		return false;
 	}
