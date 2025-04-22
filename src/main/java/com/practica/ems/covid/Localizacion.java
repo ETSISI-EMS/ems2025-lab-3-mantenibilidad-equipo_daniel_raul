@@ -90,21 +90,21 @@ public class Localizacion {
 
 	@SuppressWarnings("unused")
 	private FechaHora parsearFecha (String fecha) {
-		int[] valores = CalcularDatos(fecha, "\\/");
+		int[] valores = calcularDatos(fecha, "\\/");
 		return new FechaHora(valores[0], valores[1], valores[2], 0, 0);
 	}
 	
 	private  FechaHora parsearFecha (String fecha, String hora) {
-		int[] dataFecha = CalcularDatos(fecha, "\\/"), dataHora = CalcularDatos(hora, "\\:");
+		int[] dataFecha = calcularDatos(fecha, "\\/"), dataHora = calcularDatos(hora, "\\:");
 		return new FechaHora(dataFecha[0], dataFecha[1], dataFecha[2], dataHora[0], dataHora[1]);
 	}
 
-	private int[] CalcularDatos(String data, String regex){
+	private int[] calcularDatos(String data, String regex){
 		String[] valores = data.split(regex);
-		return TransformInt(valores);
+		return transformInt(valores);
 	}
 
-	private int[] TransformInt(String[] valores){
+	private int[] transformInt(String[] valores){
 		int[] valInt = new int[valores.length];
 		for(int i = 0; i < valores.length; i++) {
 			valInt[i] = Integer.parseInt(valores[i]);
