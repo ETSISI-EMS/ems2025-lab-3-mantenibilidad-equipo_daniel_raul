@@ -57,20 +57,28 @@ public class ContactosCovid {
 	public void setListaContactos(ListaContactos listaContactos) {
 		this.listaContactos = listaContactos;
 	}
-
-	public void loadData(String data, boolean reset) throws EmsInvalidTypeException, EmsInvalidNumberOfDataException,
-			EmsDuplicatePersonException, EmsDuplicateLocationException {
-		// borro información anterior
+	private void setNewParametres(boolean reset){
 		if (reset) {
 			this.poblacion = new Poblacion();
 			this.localizacion = new Localizacion();
 			this.listaContactos = new ListaContactos();
 		}
-		String datas[] = dividirEntrada(data);
+	}
+	private void operarLineas(String[] datas) throws EmsInvalidTypeException, EmsInvalidNumberOfDataException,
+			EmsDuplicatePersonException, EmsDuplicateLocationException {
 		for (String linea : datas) {
 			String datos[] = this.dividirLineaData(linea);
 			operarDatos(datos);
 		}
+	}
+
+	public void loadData(String data, boolean reset) throws EmsInvalidTypeException, EmsInvalidNumberOfDataException,
+			EmsDuplicatePersonException, EmsDuplicateLocationException {
+		// borro información anterior
+		setNewParametres(reset);
+
+		String datas[] = dividirEntrada(data);
+		operarLineas(datas);
 	}
 
 	public void loadDataFile(String fichero, boolean reset){
@@ -91,22 +99,17 @@ public class ContactosCovid {
 			String[] datas;
 			String data;
 			BufferedReader br = new BufferedReader(fr);
-			if (reset) {
-				this.poblacion = new Poblacion();
-				this.localizacion = new Localizacion();
-				this.listaContactos = new ListaContactos();
-			} 
+
+			setNewParametres(reset);
+
 			/**
-			 * Lectura del fichero	línea a línea. Compruebo que cada línea 
-			 * tiene el tipo PERSONA o LOCALIZACION y cargo la línea de datos en la 
+			 * Lectura del fichero	línea a línea. Compruebo que cada línea
+			 * tiene el tipo PERSONA o LOCALIZACION y cargo la línea de datos en la
 			 * lista correspondiente. Sino viene ninguno de esos tipos lanzo una excepción
 			 */
 			while ((data = br.readLine()) != null) {
 				datas = dividirEntrada(data.trim());
-				for (String linea : datas) {
-					String datos[] = this.dividirLineaData(linea);
-					operarDatos(datos);
-				}
+				operarLineas(datas);
 			}
 
 		} catch (Exception e) {
