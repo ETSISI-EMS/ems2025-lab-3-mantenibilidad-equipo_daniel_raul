@@ -216,7 +216,7 @@ public class ContactosCovid {
 	}
 
 	private Persona crearPersona(String[] data) {
-		Persona persona = new Persona(data[2], data[3], data[1], data[4], data[5], parsearFecha(data[7]));
+		Persona persona = new Persona(data[2], data[3], data[1], data[4], data[5], parsearFecha(data[7],"0:0"));
 		persona.setCp(data[6]);
 		return persona;
 	}
@@ -229,16 +229,6 @@ public class ContactosCovid {
 		posicionPersona.setFechaPosicion(fecha);
 		posicionPersona.setCoordenada(coord);
 		return posicionPersona;
-	}
-	
-	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
 	}
 	
 	private FechaHora parsearFecha (String fecha, String hora) {
