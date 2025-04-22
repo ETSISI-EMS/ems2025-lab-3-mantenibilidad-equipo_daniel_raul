@@ -3,7 +3,6 @@ package com.practica.ems.covid;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import com.practica.excecption.EmsDuplicateLocationException;
 import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.genericas.FechaHora;
@@ -62,19 +61,10 @@ public class Localizacion {
 	    
 	}
 	
-	void printLocalizacion() {    
-	    for(int i = 0; i < this.lista.size(); i++) {
-	        System.out.printf("%d;%s;", i, lista.get(i).getDocumento());
-	        FechaHora fecha = lista.get(i).getFechaPosicion();        
-	        System.out.printf("%02d/%02d/%04d;%02d:%02d;", 
-	        		fecha.getFecha().getDia(), 
-	        		fecha.getFecha().getMes(), 
-	        		fecha.getFecha().getAnio(),
-	        		fecha.getHora().getHora(),
-	        		fecha.getHora().getMinuto());
-	        System.out.printf("%.4f;%.4f\n", lista.get(i).getCoordenada().getLatitud(), 
-	        		lista.get(i).getCoordenada().getLongitud());
-	    }
+	void printLocalizacion() {
+		for(PosicionPersona p : this.lista) {
+			p.toString();
+		}
 	}
 
 	@Override
@@ -96,30 +86,29 @@ public class Localizacion {
 		
 		return cadena;		
 	}
-	
+
+
 	@SuppressWarnings("unused")
 	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
+		int[] valores = CalcularDatos(fecha, "\\/");
+		return new FechaHora(valores[0], valores[1], valores[2], 0, 0);
 	}
 	
 	private  FechaHora parsearFecha (String fecha, String hora) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		int minuto, segundo;
-		valores = hora.split("\\:");
-		minuto = Integer.parseInt(valores[0]);
-		segundo = Integer.parseInt(valores[1]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-		return fechaHora;
+		int[] dataFecha = CalcularDatos(fecha, "\\/"), dataHora = CalcularDatos(hora, "\\:");
+		return new FechaHora(dataFecha[0], dataFecha[1], dataFecha[2], dataHora[0], dataHora[1]);
 	}
-	
+
+	private int[] CalcularDatos(String data, String regex){
+		String[] valores = data.split(regex);
+		return TransformInt(valores);
+	}
+
+	private int[] TransformInt(String[] valores){
+		int[] valInt = new int[valores.length];
+		for(int i = 0; i < valores.length; i++) {
+			valInt[i] = Integer.parseInt(valores[i]);
+		}
+		return valInt;
+	}
 }
